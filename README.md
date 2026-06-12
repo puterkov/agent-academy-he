@@ -21,3 +21,11 @@
 git add .
 git commit -m "Upgrade to full course version 3"
 git push origin main
+
+
+## גרסה 4
+נוספו לכל שיעור:
+- איך עושים את השלב הזה ב־Codex
+- איך עושים את השלב הזה ב־Claude / Claude Code
+- איך מחלקים עבודה בין שני הכלים
+- תבנית חוברת עבודה להשוואת Codex מול Claude

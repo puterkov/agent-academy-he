@@ -112,6 +112,21 @@ function openLesson(id){
 
     <section class="lessonSection"><h3>דוגמת JSON</h3><pre>${l.jsonExample}</pre><button class="secondary copyBtn" data-copy="json">העתק JSON</button></section>
 
+    <section class="lessonSection">
+      <h3>${l.dualLLM.codexTitle}</h3>
+      <ol>${l.dualLLM.codexSteps.map(x=>`<li>${x}</li>`).join("")}</ol>
+    </section>
+
+    <section class="lessonSection">
+      <h3>${l.dualLLM.claudeTitle}</h3>
+      <ol>${l.dualLLM.claudeSteps.map(x=>`<li>${x}</li>`).join("")}</ol>
+    </section>
+
+    <section class="lessonSection">
+      <h3>איך מחלקים עבודה בין Codex ל־Claude</h3>
+      <ul>${l.dualLLM.comparison.map(x=>`<li>${x}</li>`).join("")}</ul>
+    </section>
+
     <section class="lessonSection rubric"><h3>רובריקת בדיקה</h3>${renderRubric(l.rubric)}</section>
 
     <section class="lessonSection"><h3>הצעד הבא</h3><p>${l.nextStep}</p></section>
