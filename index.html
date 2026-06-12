@@ -7,232 +7,200 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-icon">AI</div>
-        <div>
-          <h1>אקדמיית הסוכנים</h1>
-          <p>לבנות סוכני AI מעל כמה LLMs</p>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">AI</div>
+      <div>
+        <h1>אקדמיית הסוכנים</h1>
+        <p>קורס מלא לבניית סוכני AI</p>
+      </div>
+    </div>
+    <nav>
+      <button class="nav active" data-view="home">דף הבית</button>
+      <button class="nav" data-view="curriculum">הקורס המלא</button>
+      <button class="nav" data-view="lesson">שיעור</button>
+      <button class="nav" data-view="workbook">חוברת עבודה</button>
+      <button class="nav" data-view="lab">מעבדת סוכן</button>
+      <button class="nav" data-view="glossary">מילון</button>
+      <button class="nav" data-view="capstone">פרויקט מסכם</button>
+      <button class="nav" data-view="sources">מקורות ועדכון</button>
+    </nav>
+    <div class="sidebox">
+      <strong>יעד הקורס</strong>
+      <p>לא להשתמש ב־AI בלבד, אלא לדעת לתכנן ולבנות סוכנים אמינים, בטוחים ומדידים.</p>
+    </div>
+  </aside>
+
+  <main>
+    <header class="top">
+      <div>
+        <span class="eyebrow">Agent Builder Academy</span>
+        <h2 id="viewTitle">דף הבית</h2>
+      </div>
+      <div class="progress">
+        <span>התקדמות שיעורים</span>
+        <b id="progressText">0%</b>
+        <div class="bar"><div id="progressBar"></div></div>
+      </div>
+    </header>
+
+    <section id="home" class="view active">
+      <div class="hero">
+        <div class="heroText">
+          <span class="eyebrow">גרסה 3 — קורס עומק</span>
+          <h2>קורס מלא לבניית סוכני AI מקצועיים</h2>
+          <p>
+            זה כבר לא שלד. זה מסלול לימוד שלם: 12 מודולים, 72 שיעורים, חוברת עבודה,
+            תבניות, דוגמאות, פרומפטים, JSON, בדיקות איכות, בטיחות ופרויקט מסכם.
+          </p>
+          <div class="actions">
+            <button class="primary" data-go="curriculum">פתח את הקורס</button>
+            <button class="secondary" data-go="workbook">פתח חוברת עבודה</button>
+          </div>
+        </div>
+        <div class="card heroCard">
+          <h3>מה נבנה בסוף?</h3>
+          <ul>
+            <li>סוכן קליטת משימות ואירועים</li>
+            <li>סוכן מיילים וטיוטות</li>
+            <li>סוכן תמלולי ישיבות</li>
+            <li>סוכן מעקב והסלמה</li>
+            <li>סוכן בקרה ובטיחות</li>
+            <li>ראש לשכה דיגיטלי כמערכת Multi-Agent</li>
+          </ul>
         </div>
       </div>
-      <nav>
-        <button class="nav active" data-view="dashboard">דף הבית</button>
-        <button class="nav" data-view="course">הקורס המלא</button>
-        <button class="nav" data-view="lesson">שיעור נבחר</button>
-        <button class="nav" data-view="models">זירת LLM</button>
-        <button class="nav" data-view="lab">מעבדת סוכנים</button>
-        <button class="nav" data-view="glossary">מילון מונחים</button>
-        <button class="nav" data-view="project">פרויקט מסכם</button>
-        <button class="nav" data-view="github">עדכון האתר</button>
-      </nav>
-      <div class="side-note">
-        <strong>כלל הזהב</strong>
-        <p>לא מתחילים מהמודל. מתחילים מהעבודה, הסיכון, הקלט, הפלט והבקרה.</p>
+
+      <div class="cards three">
+        <article class="card">
+          <h3>72 שיעורים</h3>
+          <p>כל שיעור כולל פתיחה, הסבר עומק, דוגמה מהעבודה שלך, טעויות נפוצות, תרגול, תוצר ורובריקת בדיקה.</p>
+        </article>
+        <article class="card">
+          <h3>למידה לא־הנדסית</h3>
+          <p>המטרה היא לא להפוך אותך למתכנת, אלא לאדריכל סוכנים שיודע להגדיר, לבדוק ולהוביל בנייה.</p>
+        </article>
+        <article class="card">
+          <h3>כמה LLMs</h3>
+          <p>הקורס מלמד בחירה בין OpenAI, Claude, Gemini ומודלים פתוחים לפי משימה, סיכון, עלות ופרטיות.</p>
+        </article>
       </div>
-    </aside>
 
-    <main>
-      <header class="top">
-        <div>
-          <span class="eyebrow">Agent Builder Academy</span>
-          <h2 id="view-title">דף הבית</h2>
+      <section class="card">
+        <h3>מבנה למידה מומלץ</h3>
+        <div class="studyPlan">
+          <div><b>חודש 1</b><span>מודולים 1–4: יסודות, מונחים, פרומפטים ופלט מובנה</span></div>
+          <div><b>חודש 2</b><span>מודולים 5–8: כלים, LLMs, RAG ובטיחות</span></div>
+          <div><b>חודש 3</b><span>מודולים 9–12: Multi-Agent, ראש לשכה, אקדמיה ופרויקט מסכם</span></div>
         </div>
-        <div class="progress">
-          <span>התקדמות</span>
-          <b id="progress-num">0%</b>
-          <div class="bar"><div id="progress-bar"></div></div>
-        </div>
-      </header>
+      </section>
+    </section>
 
-      <section class="view active" id="dashboard">
-        <div class="hero">
-          <div>
-            <span class="eyebrow">גרסה 2 — קורס מלא</span>
-            <h2>מהצ׳אט לסוכן: ללמוד לבנות מערכות AI שמסדרות עבודה אמיתית</h2>
-            <p>
-              זהו אתר קורס מעשי בעברית, למי שאינו מהנדס תוכנה אבל רוצה להפוך למקצוען בבניית סוכנים:
-              להבין מושגים, להשוות LLMs, לתכנן כלים, להגדיר הרשאות, לבנות מעבדת ניסוי ולסיים עם ראש לשכה דיגיטלי.
-            </p>
-            <div class="actions">
-              <button class="primary" data-go="course">פתח את הקורס המלא</button>
-              <button class="secondary" data-go="lab">בנה Agent Spec</button>
-            </div>
+    <section id="curriculum" class="view">
+      <div class="sectionHead">
+        <span class="eyebrow">הקורס המלא</span>
+        <h2>12 מודולים · 72 שיעורים</h2>
+        <p>לחץ על שיעור כדי לפתוח שיעור מלא. סמן שיעורים שהושלמו.</p>
+      </div>
+      <div id="modules"></div>
+    </section>
+
+    <section id="lesson" class="view">
+      <div id="lessonBox" class="card">
+        <h2>בחר שיעור מתוך הקורס המלא</h2>
+        <p>כאן יופיע שיעור מלא עם הסבר, תרגיל, פרומפט, JSON ורובריקה.</p>
+      </div>
+    </section>
+
+    <section id="workbook" class="view">
+      <div class="sectionHead">
+        <span class="eyebrow">חוברת עבודה</span>
+        <h2>תבניות עבודה לבניית סוכנים</h2>
+        <p>אלו התבניות שאתה ממלא תוך כדי הקורס. הן הופכות את הלמידה לתיק פרויקט.</p>
+      </div>
+      <div id="templates" class="cards two"></div>
+    </section>
+
+    <section id="lab" class="view">
+      <div class="sectionHead">
+        <span class="eyebrow">מעבדת סוכן</span>
+        <h2>בונה Agent Spec אינטראקטיבי</h2>
+      </div>
+      <div class="labGrid">
+        <form id="specForm" class="card form">
+          <label>שם הסוכן<input name="name" placeholder="סוכן קליטת משימות ואירועים"></label>
+          <label>מטרה<textarea name="goal"></textarea></label>
+          <label>קלטים<textarea name="inputs"></textarea></label>
+          <label>פלטים<textarea name="outputs"></textarea></label>
+          <label>כלים<textarea name="tools"></textarea></label>
+          <label>פעולות אסורות<textarea name="forbidden"></textarea></label>
+          <label>אישור אנושי<textarea name="approval"></textarea></label>
+          <label>בדיקות איכות<textarea name="evals"></textarea></label>
+          <div class="actions">
+            <button type="button" class="primary" id="buildSpec">צור Agent Spec</button>
+            <button type="button" class="secondary" id="fillExample">מלא דוגמה</button>
           </div>
-          <div class="hero-card">
-            <h3>מה יש באתר עכשיו?</h3>
-            <ul>
-              <li>8 מודולים מלאים</li>
-              <li>48 שיעורים עם תרגילים ותוצרים</li>
-              <li>מילון מונחים מקצועי</li>
-              <li>מעבדת סוכנים אינטראקטיבית</li>
-              <li>זירת השוואת OpenAI / Claude / Gemini / מודלים פתוחים</li>
-              <li>פרויקט מסכם: ראש לשכה דיגיטלי</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="cards three">
-          <article class="card">
-            <h3>ללמוד</h3>
-            <p>שיעורים קצרים ומעשיים, עם דוגמאות מהעבודה שלך ולא תיאוריה מנותקת.</p>
-          </article>
-          <article class="card">
-            <h3>לבנות</h3>
-            <p>כל מודול מסתיים בתוצר: Agent Spec, Tool Spec, JSON, מדיניות בטיחות או ניסוי השוואה.</p>
-          </article>
-          <article class="card">
-            <h3>להשוות</h3>
-            <p>לא “איזה מודל הכי טוב”, אלא התאמה בין משימה, מודל, כלים, פרטיות וסיכון.</p>
-          </article>
-        </div>
-
-        <section class="card">
-          <h3>מסלול 30 יום מומלץ</h3>
-          <div class="plan">
-            <div><b>שבוע 1</b><span>מודולים 1–2: יסודות ומונחים</span></div>
-            <div><b>שבוע 2</b><span>מודולים 3–4: פרומפטינג והשוואת LLMs</span></div>
-            <div><b>שבוע 3</b><span>מודולים 5–6: כלים, API, RAG וזיכרון</span></div>
-            <div><b>שבוע 4</b><span>מודולים 7–8: בטיחות וראש לשכה דיגיטלי</span></div>
-          </div>
-        </section>
-      </section>
-
-      <section class="view" id="course">
-        <div class="section-head">
-          <span class="eyebrow">הקורס המלא</span>
-          <h2>8 מודולים — מהבנה בסיסית עד מערכת סוכנים</h2>
-          <p>לחץ על שיעור כדי לפתוח אותו. סמן שיעורים שהושלמו כדי לעקוב אחרי ההתקדמות.</p>
-        </div>
-        <div id="modules-list"></div>
-      </section>
-
-      <section class="view" id="lesson">
-        <div id="lesson-detail" class="lesson-empty">
-          <h2>בחר שיעור מתוך “הקורס המלא”</h2>
-          <p>כאן יופיע השיעור המלא: מטרות, הסבר, דוגמה, תרגיל, תוצר ובדיקת איכות.</p>
-        </div>
-      </section>
-
-      <section class="view" id="models">
-        <div class="section-head">
-          <span class="eyebrow">זירת LLM</span>
-          <h2>השוואת מודלים לפי משימה</h2>
-          <p>המטרה אינה נאמנות לספק אחד, אלא בחירה מקצועית לפי משימה, סיכון ועלות.</p>
-        </div>
-        <div class="cards two">
-          <article class="card model"><h3>OpenAI</h3><p>חזק בבניית סוכנים, כלים, פלט מובנה, workflows ובקרה.</p><b>שאלה:</b><span>האם צריך structured output או פעולות עם אישור?</span></article>
-          <article class="card model"><h3>Claude</h3><p>חזק בטקסטים ארוכים, ניתוח מסמכים, ניסוח וחשיבה כתובה.</p><b>שאלה:</b><span>האם הקלט הוא מסמכים ותמלולים ארוכים?</span></article>
-          <article class="card model"><h3>Gemini</h3><p>מתאים במיוחד כאשר העבודה יושבת בסביבת Google Workspace.</p><b>שאלה:</b><span>האם Google Sheets/Gmail/Drive הם מרכז העבודה?</span></article>
-          <article class="card model"><h3>מודלים פתוחים</h3><p>טובים לפרטיות, ניסויים ושליטה, אך דורשים יותר תחזוקה.</p><b>שאלה:</b><span>האם המידע רגיש מספיק כדי לשקול ריצה מקומית?</span></article>
-        </div>
-        <section class="card">
-          <h3>טבלת ניסוי השוואה</h3>
-          <table>
-            <thead><tr><th>מדד</th><th>OpenAI</th><th>Claude</th><th>Gemini</th><th>מודל פתוח</th></tr></thead>
-            <tbody>
-              <tr><td>הבנת עברית מבולגנת</td><td></td><td></td><td></td><td></td></tr>
-              <tr><td>פלט JSON תקין</td><td></td><td></td><td></td><td></td></tr>
-              <tr><td>לא המציא תאריכים</td><td></td><td></td><td></td><td></td></tr>
-              <tr><td>קלות חיבור לכלים</td><td></td><td></td><td></td><td></td></tr>
-              <tr><td>עלות ומהירות</td><td></td><td></td><td></td><td></td></tr>
-              <tr><td>פרטיות ובקרה</td><td></td><td></td><td></td><td></td></tr>
-            </tbody>
-          </table>
-        </section>
-      </section>
-
-      <section class="view" id="lab">
-        <div class="section-head">
-          <span class="eyebrow">מעבדת הסוכנים</span>
-          <h2>בנה Agent Spec</h2>
-          <p>לפני שמחברים מודל או כלי — מגדירים את העבודה.</p>
-        </div>
-        <div class="lab-grid">
-          <form id="agent-form" class="card form">
-            <label>שם הסוכן<input name="name" placeholder="לדוגמה: סוכן קליטת משימות"></label>
-            <label>מטרת הסוכן<textarea name="goal"></textarea></label>
-            <label>קלטים<textarea name="inputs"></textarea></label>
-            <label>פלטים<textarea name="outputs"></textarea></label>
-            <label>כלים מותרים<textarea name="tools"></textarea></label>
-            <label>פעולות אסורות<textarea name="forbidden"></textarea></label>
-            <label>מתי חייב אישור אנושי<textarea name="approval"></textarea></label>
-            <label>בדיקות איכות<textarea name="evals"></textarea></label>
-            <div class="actions">
-              <button type="button" class="primary" id="make-spec">צור מפרט</button>
-              <button type="button" class="secondary" id="example-spec">מלא דוגמה</button>
-            </div>
-          </form>
-          <div class="card">
-            <h3>Agent Spec</h3>
-            <pre id="spec-output">כאן יופיע המפרט...</pre>
-            <button class="secondary" id="copy-spec">העתק מפרט</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" id="glossary">
-        <div class="section-head">
-          <span class="eyebrow">מילון מונחים</span>
-          <h2>שפת העבודה של בונה סוכנים</h2>
-          <input id="glossary-search" placeholder="חפש מושג..." />
-        </div>
-        <div id="glossary-list" class="glossary-grid"></div>
-      </section>
-
-      <section class="view" id="project">
-        <div class="section-head">
-          <span class="eyebrow">פרויקט מסכם</span>
-          <h2>ראש לשכה דיגיטלי</h2>
-          <p>מערכת סוכנים אישית שמסדרת מיילים, פגישות, תמלולים, משימות ומעקבים.</p>
-        </div>
-        <div class="cards three">
-          <article class="card agent"><h3>Intake Agent</h3><p>קולט טקסט חופשי ומחזיר משימות, החלטות ושאלות פתוחות.</p></article>
-          <article class="card agent"><h3>Email Agent</h3><p>מזהה מיילים שדורשים פעולה ומכין טיוטות.</p></article>
-          <article class="card agent"><h3>Meeting Agent</h3><p>הופך תמלול ישיבה לסיכום פעולה.</p></article>
-          <article class="card agent"><h3>Follow-up Agent</h3><p>בודק מה תקוע ומה עבר תאריך.</p></article>
-          <article class="card agent"><h3>Drafting Agent</h3><p>מנסח מיילים והודעות לפי עובדות מאושרות.</p></article>
-          <article class="card agent"><h3>Control Agent</h3><p>בודק פלטים, המצאות, חוסרים ופעולות אסורות.</p></article>
-        </div>
-        <section class="card">
-          <h3>גרסה ראשונה לבנייה</h3>
-          <p><b>סוכן קליטת משימות ואירועים</b> — מקבל טקסט מבולגן בעברית ומחזיר JSON עם פרויקט, החלטות, משימות, אחראים, תאריכים, שאלות פתוחות ודרישת אישור.</p>
-          <pre>{
-  "project": "סקר שביעות רצון",
-  "tasks": [
-    {
-      "title": "לבקש מדוד להפיק דוחות",
-      "owner": "דוד",
-      "dueDate": null,
-      "requiresApproval": false
-    }
-  ],
-  "openQuestions": [],
-  "requiresHumanApproval": true
-}</pre>
-        </section>
-      </section>
-
-      <section class="view" id="github">
-        <div class="section-head">
-          <span class="eyebrow">עדכון האתר בגיטהאב</span>
-          <h2>איך מעלים את גרסה 2 לאתר שכבר פרסמת</h2>
-        </div>
+        </form>
         <div class="card">
-          <ol>
-            <li>חלץ את קובץ ה־ZIP החדש.</li>
-            <li>פתח את ה־repository שלך ב־GitHub: <b>agent-academy-he</b>.</li>
-            <li>לחץ <b>Add file → Upload files</b>.</li>
-            <li>גרור את הקבצים החדשים: <code>index.html</code>, <code>styles.css</code>, <code>data.js</code>, <code>app.js</code>, <code>README.md</code>.</li>
-            <li>אשר החלפה של הקבצים הישנים אם GitHub שואל.</li>
-            <li>למטה לחץ <b>Commit changes</b>.</li>
-            <li>המתן דקה־שתיים ורענן את האתר.</li>
-          </ol>
-          <p>אם האתר לא מתעדכן מיד, פתח אותו בחלון פרטי או לחץ Ctrl+F5.</p>
+          <h3>פלט</h3>
+          <pre id="specOutput">כאן יופיע Agent Spec...</pre>
+          <button class="secondary" id="copySpec">העתק</button>
         </div>
+      </div>
+    </section>
+
+    <section id="glossary" class="view">
+      <div class="sectionHead">
+        <span class="eyebrow">מילון</span>
+        <h2>המונחים שאתה צריך לשלוט בהם</h2>
+        <input id="glossarySearch" placeholder="חפש: API, JSON, RAG, Guardrails..." />
+      </div>
+      <div id="glossaryList" class="glossaryGrid"></div>
+    </section>
+
+    <section id="capstone" class="view">
+      <div class="sectionHead">
+        <span class="eyebrow">פרויקט מסכם</span>
+        <h2>ראש לשכה דיגיטלי</h2>
+        <p>הפרויקט מחבר את כל מה שלמדת למערכת עבודה אמיתית.</p>
+      </div>
+      <div class="cards three">
+        <article class="card agent"><h3>Intake Agent</h3><p>קולט טקסט חופשי ומחזיר משימות, החלטות ושאלות פתוחות.</p></article>
+        <article class="card agent"><h3>Email Agent</h3><p>מזהה מיילים שדורשים פעולה, מכין טיוטות ומסמן חוסר מידע.</p></article>
+        <article class="card agent"><h3>Meeting Agent</h3><p>הופך תמלולי ישיבות לסיכומי פעולה.</p></article>
+        <article class="card agent"><h3>Follow-up Agent</h3><p>בודק מה תקוע, אצל מי הכדור ומה צריך להסלים.</p></article>
+        <article class="card agent"><h3>Drafting Agent</h3><p>מנסח מיילים והודעות על בסיס עובדות מאושרות.</p></article>
+        <article class="card agent"><h3>Control Agent</h3><p>בודק המצאות, חוסרים, סיכונים ופעולות אסורות.</p></article>
+      </div>
+      <section class="card">
+        <h3>תוצר סופי</h3>
+        <p>בסוף הקורס יהיה לך תיק פרויקט הכולל: Agent Specs, Tool Specs, JSON Schemas, Eval Set, Safety Policy, RAG Map, ומפת Multi-Agent.</p>
       </section>
-    </main>
-  </div>
+    </section>
+
+    <section id="sources" class="view">
+      <div class="sectionHead">
+        <span class="eyebrow">מקורות ועדכון</span>
+        <h2>מקורות רשמיים ועדכון ל־GitHub</h2>
+      </div>
+      <div class="card">
+        <h3>מקורות רשמיים שהקורס נשען עליהם</h3>
+        <ul id="sourcesList"></ul>
+      </div>
+      <div class="card">
+        <h3>איך מעלים את גרסה 3 לאתר שלך</h3>
+        <ol>
+          <li>הורד וחלץ את קובץ ה־ZIP.</li>
+          <li>פתח PowerShell בתיקייה <code>C:\Users\MENASHE\agent-academy-he</code>.</li>
+          <li>העתק לתיקייה את הקבצים: <code>index.html</code>, <code>styles.css</code>, <code>data.js</code>, <code>app.js</code>, <code>README.md</code>.</li>
+          <li>הרץ: <code>git add .</code></li>
+          <li>הרץ: <code>git commit -m "Upgrade to full course version 3"</code></li>
+          <li>הרץ: <code>git push origin main</code></li>
+          <li>חכה דקה ורענן את האתר עם Ctrl+F5.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
