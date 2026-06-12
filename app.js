@@ -1,189 +1,121 @@
-const pages = document.querySelectorAll(".page");
-const navLinks = document.querySelectorAll(".nav-link");
-const pageTitle = document.getElementById("page-title");
-
-const pageNames = {
-  home: "דף הבית",
-  roadmap: "מסלול הלמידה",
-  models: "זירת ה־LLM",
-  lab: "מעבדת הסוכנים",
-  glossary: "מילון מונחים",
-  exercises: "תרגילים",
-  project: "הפרויקט שלי"
+const DATA = window.COURSE_DATA;
+const views = document.querySelectorAll(".view");
+const navs = document.querySelectorAll(".nav");
+const title = document.getElementById("view-title");
+const titles = {
+  dashboard:"דף הבית", course:"הקורס המלא", lesson:"שיעור נבחר", models:"זירת LLM",
+  lab:"מעבדת סוכנים", glossary:"מילון מונחים", project:"פרויקט מסכם", github:"עדכון האתר"
 };
 
-function showPage(id) {
-  pages.forEach(page => page.classList.toggle("active", page.id === id));
-  navLinks.forEach(link => link.classList.toggle("active", link.dataset.page === id));
-  pageTitle.textContent = pageNames[id] || "";
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function show(view){
+  views.forEach(v=>v.classList.toggle("active",v.id===view));
+  navs.forEach(n=>n.classList.toggle("active",n.dataset.view===view));
+  title.textContent=titles[view]||"";
+  scrollTo({top:0,behavior:"smooth"});
 }
+navs.forEach(n=>n.addEventListener("click",()=>show(n.dataset.view)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.go)));
 
-navLinks.forEach(link => {
-  link.addEventListener("click", () => showPage(link.dataset.page));
-});
-
-document.querySelectorAll("[data-jump]").forEach(btn => {
-  btn.addEventListener("click", () => showPage(btn.dataset.jump));
-});
-
-const checks = document.querySelectorAll(".progress-check");
-const progressPercent = document.getElementById("progress-percent");
-const progressBar = document.getElementById("progress-bar");
-
-function loadProgress() {
-  checks.forEach(check => {
-    check.checked = localStorage.getItem("agentAcademy_" + check.dataset.key) === "true";
+function lessonDoneKey(id){return "agentAcademyV2_"+id}
+function renderModules(){
+  const box=document.getElementById("modules-list");
+  box.innerHTML="";
+  DATA.modules.forEach(m=>{
+    const module=document.createElement("article");
+    module.className="module";
+    module.innerHTML=`<div class="module-head"><div><span class="eyebrow">${m.goal}</span><h3>${m.title}</h3><p>${m.subtitle}</p></div><b>${m.lessons.length} שיעורים</b></div><div class="lesson-list"></div>`;
+    const list=module.querySelector(".lesson-list");
+    m.lessons.forEach(l=>{
+      const c=document.createElement("div");
+      c.className="lesson-card";
+      const checked=localStorage.getItem(lessonDoneKey(l.id))==="true"?"checked":"";
+      c.innerHTML=`<h4>${l.title}</h4><small>${l.duration} · ${l.level}</small><label><input type="checkbox" ${checked} data-done="${l.id}"> הושלם</label>`;
+      c.addEventListener("click",(e)=>{ if(e.target.tagName!=="INPUT") openLesson(l.id); });
+      list.appendChild(c);
+    });
+    box.appendChild(module);
   });
-  updateProgress();
-}
-
-function updateProgress() {
-  const total = checks.length || 1;
-  const done = Array.from(checks).filter(c => c.checked).length;
-  const percent = Math.round(done / total * 100);
-  progressPercent.textContent = percent + "%";
-  progressBar.style.width = percent + "%";
-}
-
-checks.forEach(check => {
-  check.addEventListener("change", () => {
-    localStorage.setItem("agentAcademy_" + check.dataset.key, check.checked);
-    updateProgress();
-  });
-});
-
-loadProgress();
-
-const glossarySearch = document.getElementById("glossary-search");
-if (glossarySearch) {
-  glossarySearch.addEventListener("input", () => {
-    const q = glossarySearch.value.trim().toLowerCase();
-    document.querySelectorAll(".glossary-card").forEach(card => {
-      const text = (card.dataset.term + " " + card.textContent).toLowerCase();
-      card.style.display = text.includes(q) ? "block" : "none";
+  document.querySelectorAll("[data-done]").forEach(ch=>{
+    ch.addEventListener("change",e=>{
+      localStorage.setItem(lessonDoneKey(e.target.dataset.done),e.target.checked);
+      updateProgress();
     });
   });
 }
-
-const form = document.getElementById("agent-form");
-const specOutput = document.getElementById("spec-output");
-
-function getFormData() {
-  const data = new FormData(form);
-  return Object.fromEntries(data.entries());
+function findLesson(id){
+  for(const m of DATA.modules){ const l=m.lessons.find(x=>x.id===id); if(l) return {lesson:l,module:m}; }
 }
-
-function generateSpec() {
-  const d = getFormData();
-  const spec = {
-    agentName: d.agentName || "שם הסוכן לא הוגדר",
-    role: d.role || "לא הוגדר",
-    input: d.input || "לא הוגדר",
-    output: d.output || "לא הוגדר",
-    allowedTools: d.tools || "לא הוגדר",
-    forbiddenActions: d.forbidden || "לא הוגדר",
-    mustAskHumanWhen: d.approval || "לא הוגדר",
-    evaluationCriteria: d.eval || "לא הוגדר",
-    autonomyLevel: "שלב ראשון: קריאה, ניתוח והצעה בלבד. ללא פעולות בעולם בלי אישור."
-  };
-  specOutput.textContent = JSON.stringify(spec, null, 2);
-}
-
-document.getElementById("generate-spec")?.addEventListener("click", generateSpec);
-
-document.getElementById("fill-example")?.addEventListener("click", () => {
-  form.agentName.value = "סוכן קליטת משימות ואירועים";
-  form.role.value = "לקבל טקסט חופשי ממנשה ולהפוך אותו למשימות, החלטות, מעקבים ושאלות פתוחות.";
-  form.input.value = "טקסט חופשי בעברית, מייל מועתק, תמלול ישיבה או רעיון קצר.";
-  form.output.value = "project, decisions, tasks, owners, dueDates, followUps, openQuestions, requiresApproval";
-  form.tools.value = "בשלב ראשון אין כלים. בשלב שני: addTaskToSheet. בשלב שלישי: createDraftEmail.";
-  form.forbidden.value = "לא לשלוח מיילים, לא למחוק מידע, לא לקבוע פגישות, לא להמציא תאריכים, לא לשנות נתונים רשמיים.";
-  form.approval.value = "כאשר חסר אחראי, חסר תאריך, יש כמה פרויקטים אפשריים, או נדרשת פעולה מול אדם אחר.";
-  form.eval.value = "זיהוי נכון של משימות, אפס המצאת תאריכים, פלט מובנה תקין, ואפס פעולות בלי אישור.";
-  generateSpec();
-});
-
-document.getElementById("copy-spec")?.addEventListener("click", async () => {
-  await navigator.clipboard.writeText(specOutput.textContent);
-  alert("האפיון הועתק");
-});
-
-const templates = {
-  exercise1:
-`קלט:
-[הדבק כאן טקסט מבולגן מהעבודה]
-
-הפלט הרצוי:
-- פרויקט:
-- החלטות:
-- משימות:
-  1. משימה:
-     אחראי:
-     תאריך:
-     סטטוס:
-- שאלות פתוחות:
-- דברים שדורשים אישור מנשה:
-- דברים שאסור לסוכן לעשות לבד:`,
-
-  exercise2:
-`Agent Spec:
-שם הסוכן:
-תפקיד:
-קלט:
-פלט:
-כלים:
-זיכרון:
-פעולות אסורות:
-נקודות עצירה:
-בדיקת איכות:
-רמת אוטונומיה:
-סיכון מרכזי:`,
-
-  exercise3:
-`רשימת פעולות אסורות:
-1. לא לשלוח מייל בלי אישור מפורש.
-2. לא למחוק מיילים או קבצים.
-3. לא לשנות ציונים או נתוני סטודנטים.
-4. לא לקבוע פגישות עם אנשים בלי אישור.
-5. לא להעביר מידע רגיש לגורם חיצוני.
-6. לא להמציא תאריכים, אחראים או החלטות.
-7. לא לבצע פעולה כספית או מכרזית.`,
-
-  exercise4:
-`ניסוי השוואת LLMs:
-משימה:
-קלט זהה:
-פלט רצוי:
-
-מודלים שנבדקו:
-- OpenAI:
-- Claude:
-- Gemini:
-- מודל פתוח/מקומי:
-
-מדדים:
-דיוק:
-הבנת עברית:
-פלט JSON:
-לא המציא:
-מהירות:
-עלות:
-חיבור לכלים:
-תחזוקה:
-
-מסקנה:
-לאיזו משימה הייתי בוחר כל מודל?`
-};
-
-const templateOutput = document.getElementById("template-output");
-document.querySelectorAll("[data-template]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    templateOutput.textContent = templates[btn.dataset.template] || "";
+function openLesson(id){
+  const found=findLesson(id); if(!found) return;
+  const l=found.lesson, m=found.module;
+  const detail=document.getElementById("lesson-detail");
+  detail.className="lesson-detail";
+  detail.innerHTML=`
+    <span class="eyebrow">${m.title}</span>
+    <h2 class="lesson-title">${l.title}</h2>
+    <div class="meta"><span class="pill">${l.duration}</span><span class="pill">${l.level}</span><span class="pill">${l.deliverable}</span></div>
+    <section class="lesson-section"><h3>מטרות השיעור</h3><ul>${l.objectives.map(x=>`<li>${x}</li>`).join("")}</ul></section>
+    <section class="lesson-section"><h3>הסבר</h3><p>${l.explanation}</p></section>
+    <section class="lesson-section"><h3>דוגמה מהעבודה שלך</h3><p>${l.work_example}</p></section>
+    <section class="lesson-section"><h3>מונחים חשובים</h3><p>${(l.terms&&l.terms.length?l.terms:["Agent","Tool","Output","Guardrail"]).map(t=>`<span class="pill">${t}</span>`).join(" ")}</p></section>
+    <section class="lesson-section"><h3>תרגיל</h3><p>${l.exercise}</p></section>
+    <section class="lesson-section"><h3>תוצר</h3><p>${l.deliverable}</p></section>
+    <section class="lesson-section"><h3>בדיקת איכות</h3><ul class="checklist">${l.quality_check.map(x=>`<li>✓ ${x}</li>`).join("")}</ul></section>
+    <div class="actions"><button class="primary" id="mark-current">סמן שיעור כהושלם</button><button class="secondary" data-go="course">חזרה לקורס</button></div>
+  `;
+  document.getElementById("mark-current").addEventListener("click",()=>{
+    localStorage.setItem(lessonDoneKey(id),"true");
+    renderModules(); updateProgress();
   });
+  detail.querySelector("[data-go]").addEventListener("click",()=>show("course"));
+  show("lesson");
+}
+function updateProgress(){
+  const all=DATA.modules.flatMap(m=>m.lessons);
+  const done=all.filter(l=>localStorage.getItem(lessonDoneKey(l.id))==="true").length;
+  const pct=Math.round(done/(all.length||1)*100);
+  document.getElementById("progress-num").textContent=pct+"%";
+  document.getElementById("progress-bar").style.width=pct+"%";
+}
+function renderGlossary(){
+  const list=document.getElementById("glossary-list");
+  list.innerHTML=DATA.glossary.map(([term,def])=>`<article class="term" data-term="${term} ${def}"><h3>${term}</h3><p>${def}</p></article>`).join("");
+}
+document.getElementById("glossary-search").addEventListener("input",e=>{
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll(".term").forEach(t=>t.style.display=t.dataset.term.toLowerCase().includes(q)?"block":"none");
 });
 
-document.getElementById("copy-template")?.addEventListener("click", async () => {
-  await navigator.clipboard.writeText(templateOutput.textContent);
-  alert("התבנית הועתקה");
+const form=document.getElementById("agent-form");
+function makeSpec(){
+  const d=Object.fromEntries(new FormData(form).entries());
+  const spec={
+    agentName:d.name||"לא הוגדר",
+    goal:d.goal||"לא הוגדר",
+    inputs:d.inputs||"לא הוגדר",
+    outputs:d.outputs||"לא הוגדר",
+    allowedTools:d.tools||"לא הוגדר",
+    forbiddenActions:d.forbidden||"לא הוגדר",
+    humanApprovalRequiredWhen:d.approval||"לא הוגדר",
+    evaluation:d.evals||"לא הוגדר",
+    autonomyLevel:"שלב ראשון: קריאה, ניתוח והצעה בלבד. אין פעולה בעולם ללא אישור."
+  };
+  document.getElementById("spec-output").textContent=JSON.stringify(spec,null,2);
+}
+document.getElementById("make-spec").addEventListener("click",makeSpec);
+document.getElementById("example-spec").addEventListener("click",()=>{
+  form.name.value="סוכן קליטת משימות ואירועים";
+  form.goal.value="לקבל טקסט חופשי ממנשה ולהפוך אותו למשימות, החלטות, מעקבים ושאלות פתוחות.";
+  form.inputs.value="טקסט חופשי בעברית, מייל מועתק, תמלול ישיבה, רעיון קצר.";
+  form.outputs.value="project, decisions, tasks, owner, dueDate, followUp, openQuestions, requiresApproval.";
+  form.tools.value="שלב 1: ללא כלים. שלב 2: addTaskToSheet. שלב 3: createDraftEmail.";
+  form.forbidden.value="לא לשלוח מייל, לא למחוק מידע, לא לקבוע פגישה, לא להמציא תאריך או אחראי.";
+  form.approval.value="חסר אחראי, חסר תאריך, כמה פרויקטים אפשריים, פעולה מול אדם אחר, מידע רגיש.";
+  form.evals.value="זיהוי נכון של משימות, אפס המצאת תאריכים, JSON תקין, אפס פעולות בלי אישור.";
+  makeSpec();
 });
+document.getElementById("copy-spec").addEventListener("click",async()=>{
+  await navigator.clipboard.writeText(document.getElementById("spec-output").textContent);
+  alert("המפרט הועתק");
+});
+renderModules(); renderGlossary(); updateProgress();
